@@ -1,0 +1,98 @@
+---
+title: "Connect an AI provider to power resume analysis"
+description: "Set up Gemini, OpenAI, Grok, Qwen, or a local Ollama model in CareerOps, and learn what each of the four AI agents does during resume tailoring."
+---
+
+CareerOps uses AI to analyze job descriptions, score your resume fit, research company culture, and rewrite your resume with targeted language. Before you can run an analysis, you need to connect at least one AI provider by supplying an API key — or point the app at a locally running Ollama instance if you prefer to keep your data entirely on your machine.
+
+## Supported providers and default models
+
+CareerOps supports five providers. Each has a default model used when you leave the model name field blank.
+
+| Provider | Default model |
+|---|---|
+| Gemini | `gemini-1.5-flash` |
+| Grok (Groq) | `llama3-groq-70b-8192-tool-use-preview` |
+| Qwen | `qwen-plus` |
+| OpenAI | `gpt-4o` |
+| Ollama (local) | `llama3` |
+
+To use a different model from the same provider, type the model name into the **Model Name** field on the Generate Resume page. Leave it blank to use the default.
+
+## Configure your API key
+
+You can save your API key in two places — either works:
+
+<Tabs>
+  <Tab title="Gemini">
+    1. Go to the **Generate Resume** page.
+    2. Select **Gemini** from the **Select AI Model** dropdown.
+    3. Expand the **Gemini API Key Configuration** section.
+    4. Paste your Google AI Studio API key into the field.
+    5. Click **Save Key**.
+
+    Your key is stored in `user_keys.json` in the app's working directory and reloaded automatically on future visits.
+  </Tab>
+  <Tab title="OpenAI">
+    1. Go to the **Generate Resume** page.
+    2. Select **OpenAI** from the **Select AI Model** dropdown.
+    3. Expand the **OpenAI API Key Configuration** section.
+    4. Paste your OpenAI API key into the field.
+    5. Click **Save Key**.
+  </Tab>
+  <Tab title="Grok (Groq)">
+    1. Go to the **Generate Resume** page.
+    2. Select **Grok** from the **Select AI Model** dropdown.
+    3. Expand the **Grok API Key Configuration** section.
+    4. Paste your Groq API key into the field.
+    5. Click **Save Key**.
+  </Tab>
+  <Tab title="Qwen">
+    1. Go to the **Generate Resume** page.
+    2. Select **Qwen** from the **Select AI Model** dropdown.
+    3. Expand the **Qwen API Key Configuration** section.
+    4. Paste your Alibaba Cloud DashScope API key into the field.
+    5. Click **Save Key**.
+  </Tab>
+  <Tab title="Ollama (local)">
+    Ollama does not require an API key. Instead, you provide the base URL of your locally running Ollama server.
+
+    1. Start Ollama on your machine (the default address is `http://localhost:11434`).
+    2. Go to the **Generate Resume** page.
+    3. Select **Ollama** from the **Select AI Model** dropdown.
+    4. Expand the **Ollama Configuration** section.
+    5. Enter your base URL (e.g., `http://localhost:11434`). If you have not changed the default, this is pre-filled automatically.
+    6. Click **Save Key**.
+
+    <Note>
+      Ollama runs models entirely on your local hardware. No data leaves your machine, making it a good choice if you are working with sensitive personal or career information.
+    </Note>
+  </Tab>
+</Tabs>
+
+<Warning>
+  Never commit `user_keys.json` to version control. This file stores your API keys in plain text. Add it to your `.gitignore` before making any commits.
+</Warning>
+
+You can also add your API key to `.streamlit/secrets.toml` or as a standard environment variable (for example, `GEMINI_API_KEY`). Keys entered through the UI take priority over those set in config files.
+
+## The four AI agents
+
+When you click **Analyze job description**, CareerOps runs a multi-agent pipeline. Each agent has a specific role:
+
+<CardGroup cols={2}>
+  <Card title="Extractor Agent" icon="magnifying-glass">
+    Reads the job description and extracts the company name and job title. The extracted values auto-fill the **Company name** and **Role title** fields used when logging an application to the Kanban board.
+  </Card>
+  <Card title="Researcher Agent" icon="globe">
+    Uses the company name and job title to search for publicly available information about the company's hiring process, interview practices, and culture. The research notes are passed to the Writer Agent to make resume language more aligned with the company's values.
+  </Card>
+  <Card title="Matcher Agent" icon="list-check">
+    Compares your resume against the job description as an ATS reviewer would. It identifies exactly where your resume is lacking, highlights missing skills, and produces specific improvement tips shown in the **AI Agent Analysis** panel.
+  </Card>
+  <Card title="Writer Agent" icon="pen-nib">
+    Takes your base resume, the job description, the Researcher's notes, and the Matcher's feedback to produce a tailored resume. It rewrites your existing content to emphasize relevant skills and experience — it does not fabricate or add experience you do not have. The output is saved as a new version in the resume editor.
+  </Card>
+</CardGroup>
+
+After the Writer Agent produces a new version, a **Rematcher Agent** automatically re-scores the tailored resume against the original job description so you can see exactly how much your match score improved.

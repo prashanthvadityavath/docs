@@ -1,0 +1,137 @@
+---
+title: 'Set up CareerOps and run your first resume analysis'
+description: 'Install CareerOps, connect it to a PostgreSQL database, configure your AI provider, and run your first AI resume analysis in a single terminal session.'
+---
+
+Getting CareerOps running locally takes a single terminal session. You will clone the repository, install Python dependencies, point the app at your PostgreSQL instance, initialize the database schema, and launch the Streamlit server. By the end of this guide you will have a running dashboard and your first AI resume analysis complete.
+
+<Steps>
+
+<Step title="Check prerequisites">
+
+Before you begin, confirm you have the following available:
+
+- **Python 3.11 or later** — check with `python3 --version`
+- **PostgreSQL** — running locally (for example, via Homebrew `postgresql@16`, Postgres.app, or Docker)
+- **An AI provider API key** — at least one of: Google Gemini, OpenAI, or Groq. You can also use a local Ollama model with no API key.
+
+<Info>
+You do not need to create the `careerops` database manually. The initialization script creates it for you.
+</Info>
+</Step>
+
+<Step title="Clone the repository and create a virtual environment">
+
+```bash
+git clone https://github.com/prashanthvadityavath/CareerOps.git
+cd CareerOps
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows, activate with `.venv\Scripts\activate` instead.
+</Step>
+
+<Step title="Install dependencies">
+
+```bash
+pip install -r requirements.txt
+```
+
+This installs Streamlit, LangChain, the AI provider SDKs (Google Generative AI, OpenAI, Groq), PostgreSQL adapter, Pandas, Plotly, and all other required packages.
+</Step>
+
+<Step title="Configure database credentials">
+
+Copy the example secrets file and fill in your PostgreSQL credentials:
+
+```bash
+cp .streamlit/secrets.example.toml .streamlit/secrets.toml
+```
+
+Open `.streamlit/secrets.toml` and set your values:
+
+<CodeGroup>
+
+```toml secrets.toml (minimal)
+[postgres]
+host = "localhost"
+port = 5432
+dbname = "careerops"
+user = "your_username"
+password = ""
+```
+
+```toml secrets.toml (with Gemini key)
+[postgres]
+host = "localhost"
+port = 5432
+dbname = "careerops"
+user = "your_username"
+password = "your_password"
+
+[Gemini AI API]
+GEMINI_API_KEY = "your_actual_api_key_here"
+```
+
+</CodeGroup>
+
+<Tip>
+You do not need to add API keys to `secrets.toml`. You can enter them directly in the **Settings** page of the running app and they will be saved locally to `user_keys.json`. The Settings UI supports all providers: Gemini, OpenAI, Grok, Qwen, and Ollama.
+</Tip>
+
+<Warning>
+`secrets.toml` is gitignored. Never commit it — it contains your database password and API keys.
+</Warning>
+</Step>
+
+<Step title="Initialize the database">
+
+Run the initialization script from the project root. It connects to your PostgreSQL instance, creates the `careerops` database if it does not exist, and applies the full database schema:
+
+```bash
+python scripts/init_db.py
+```
+
+If you want more control, use the optional flags:
+
+```bash
+# Only create the database (skip schema)
+python scripts/init_db.py --db-only
+
+# Only apply the schema (database already exists)
+python scripts/init_db.py --schema-only
+```
+</Step>
+
+<Step title="Launch the app">
+
+```bash
+streamlit run app.py
+```
+
+The app opens automatically in your browser at `http://localhost:8501`. You will see the Dashboard with empty KPIs — that is expected until you add data.
+</Step>
+
+<Step title="Create your first candidate profile">
+
+Before running any AI analysis, give CareerOps a master profile to work from:
+
+1. Click **Master Profile** in the top navigation bar.
+2. Fill in your name and contact details, then save.
+3. Add at least one entry to **Technical Skills** and **Work Experience** — these are the source material the AI rewrites into tailored resumes.
+
+Your master profile is the single source of truth. Every tailored resume CareerOps generates starts from this data.
+</Step>
+
+<Step title="Run your first resume analysis">
+
+1. Click **Generate Resume** in the navigation bar.
+2. Select the candidate profile you just created.
+3. Paste a complete job description into the text area.
+4. Choose your AI provider from the dropdown and click **Analyze job description**.
+
+CareerOps will calculate a match score, identify missing keywords, and produce a tailored resume. You can copy the output or save the application directly to your Kanban board from the same screen.
+</Step>
+
+</Steps>

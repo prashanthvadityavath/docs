@@ -1,0 +1,86 @@
+---
+title: "CareerOps FAQ: models, data, profiles, and exports"
+description: "Common questions about AI models, API key storage, candidate profiles, match scores, offline use, and exporting tailored resumes in CareerOps."
+---
+
+If you're new to CareerOps or want to understand how a specific feature works, you'll find answers to the most common questions below. For setup problems, see the [troubleshooting guide](troubleshooting).
+
+<AccordionGroup>
+  <Accordion title="Which AI models does CareerOps support?">
+    CareerOps supports five providers out of the box:
+
+    - **Gemini** (Google) — default model: `gemini-1.5-flash`
+    - **OpenAI** (GPT) — default model: `gpt-4o`
+    - **Grok** (Groq) — default model: `llama3-groq-70b-8192-tool-use-preview`
+    - **Qwen** (Alibaba DashScope) — default model: `qwen-plus`
+    - **Ollama** (local inference) — default model: `llama3`
+
+    You can switch between providers on the **Generate Resume** page before each analysis. You can also override the model name if you want to use a specific version not listed as the default.
+  </Accordion>
+
+  <Accordion title="Does CareerOps store my API keys on a server?">
+    No. CareerOps stores API keys locally in a `user_keys.json` file on your machine. They are never transmitted to any CareerOps server. The only time an API key leaves your machine is when CareerOps sends it directly to the AI provider's own API to run an analysis.
+
+    <Note>
+      `user_keys.json` is written to your project root directory. Do not commit this file to version control.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Can I use CareerOps without an internet connection?">
+    Yes, if you configure a local **Ollama** model. When you select Ollama as your provider, CareerOps connects to your local Ollama instance (defaulting to `http://localhost:11434`) instead of reaching out to a remote API.
+
+    All other providers — Gemini, OpenAI, Grok, and Qwen — require an active internet connection to reach their respective APIs.
+  </Accordion>
+
+  <Accordion title="What is a Master Profile and why do I need one?">
+    Your master profile is the single source of truth for resume generation in CareerOps. It stores your skills, work experience, education, projects, and certifications in your local PostgreSQL database.
+
+    Every time you generate a tailored resume, CareerOps starts from your master profile and rewrites it to match the target job description. Without a master profile, the AI agents have no base content to tailor.
+
+    To create or edit your master profile, open the **Master Profile** page from the navigation.
+  </Accordion>
+
+  <Accordion title="Can I have multiple candidate profiles?">
+    Yes. CareerOps supports multiple candidate profiles, which is useful when you're applying for roles in different fields — for example, a Data Science track and a Product Management track. Each profile has its own master resume data, daily goal, and application history.
+
+    Switch between profiles using the candidate selector in the app header.
+  </Accordion>
+
+  <Accordion title="Where is my data stored?">
+    All application data — candidate profiles, job applications, resume versions, activity logs, and settings — is stored in your local PostgreSQL database. CareerOps does not use any cloud database or external storage service.
+
+    Your database credentials live in `.streamlit/secrets.toml`, which is excluded from version control by default.
+  </Accordion>
+
+  <Accordion title="How does the match score work?">
+    When you click **Analyze job description**, CareerOps sends your master profile text and the job description to the Matcher AI agent. The agent compares your skills and experience against the job requirements and returns a score from 0 to 100 based on keyword overlap and skill alignment.
+
+    The score is color-coded in the UI:
+
+    - **80 or above** — highlighted in green (strong fit)
+    - **60–79** — highlighted in amber (moderate fit)
+    - **Below 60** — shown in gray (low fit)
+
+    After upgrading your resume, the Rematcher agent re-scores the tailored version so you can see the improvement.
+  </Accordion>
+
+  <Accordion title="Can I export my tailored resume?">
+    Yes. After generating a tailored resume on the **Generate Resume** page, click **Print View**. A dialog opens showing a preview of the resume with two download buttons: **Download PDF** and **Download DOCX**.
+
+    <Note>
+      PDF and DOCX export requires `fpdf2` and `python-docx` to be installed. If the export fails, run `pip install fpdf2 python-docx` and restart the app.
+    </Note>
+  </Accordion>
+
+  <Accordion title="What are resume versions?">
+    Each time you click **Upgrade Resume**, CareerOps saves the AI-tailored output as a new version rather than overwriting your previous resume. Versions are named automatically using the company and role you've entered — for example, `Acme Corp - Engineer v1`, then `Acme Corp - Engineer v2` on the next upgrade.
+
+    Use the version dropdown on the **Generate Resume** page to switch between versions. You can also manually edit any version directly in the resume editor on that page.
+  </Accordion>
+
+  <Accordion title="How do I move an application to a different Kanban stage?">
+    Open the **Applications** page to see your full Kanban board. Each application card has move controls that let you shift it forward or backward through the pipeline stages: **Saved**, **Applied**, **Interviewing**, **Offered**, and **Rejected**.
+
+    CareerOps writes the stage change to your PostgreSQL database immediately so it persists across sessions.
+  </Accordion>
+</AccordionGroup>

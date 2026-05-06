@@ -1,0 +1,99 @@
+---
+title: "Generate AI-tailored resumes for any job description"
+description: "CareerOps analyzes your profile against a job description, shows your match score and missing keywords, then rewrites your resume with targeted language."
+---
+
+The **Generate Resume** page lets you point CareerOps at any job description, run an AI-powered gap analysis against your profile, and produce a tailored resume — all without leaving the app. The workflow runs through four specialized AI agents and ends with a re-scored version of your resume so you can see exactly how much your match improved.
+
+<Steps>
+  <Step title="Provide the job description">
+    Paste the job URL into the **Job URL** field and click **Fetch** to let CareerOps scrape the page automatically. If the site blocks scraping, paste the full description directly into the text area below the URL field.
+
+    <Tip>
+      Fetch works best with public job boards (LinkedIn, Greenhouse, Lever, Workday). For gated postings, copy and paste the full description text instead.
+    </Tip>
+  </Step>
+
+  <Step title="Choose an AI model">
+    Select a provider from the **Select AI Model** dropdown. CareerOps supports five providers:
+
+    | Provider | Default model |
+    |----------|--------------|
+    | Gemini | `gemini-1.5-flash` |
+    | Grok | `llama3-groq-70b-8192-tool-use-preview` |
+    | Qwen | `qwen-plus` |
+    | OpenAI | `gpt-4o` |
+    | Ollama | `llama3` (local) |
+
+    Leave the **Model Name** field blank to use the default. To use a specific model version (e.g., `gpt-4o-mini`), type it in the optional field.
+
+    Enter your API key in the provider's configuration expander. CareerOps saves the key locally in `user_keys.json` so you only need to enter it once. For Ollama, enter your local base URL (default: `http://localhost:11434`) instead of an API key.
+  </Step>
+
+  <Step title="Analyze the job description">
+    Click **Analyze job description**. CareerOps runs two things in sequence:
+
+    1. A fast keyword and scoring pass that produces your **Match Score** and highlights matching and missing keywords.
+    2. The initial three-agent pipeline (Extractor, Researcher, Matcher) that gathers deeper intelligence about the role.
+
+    When the analysis completes, the **Keyword Analysis** section shows green-bordered pills for keywords you already have and grey pills for keywords you are missing. The **Match Score** bar shows your current fit as a percentage.
+
+    The **Quick Requirements** checklist summarizes role-specific fields such as years of experience, visa sponsorship availability, OPT/CPT acceptance, and required certifications.
+  </Step>
+
+  <Step title="Review the Matcher agent's suggestions">
+    After analysis, the **AI Agent Analysis (Matcher)** panel displays the Matcher agent's plain-language critique of your resume. This tells you specifically where your current resume falls short relative to the job description and what to emphasize or reword.
+
+    Read through the notes before upgrading — the Writer agent uses them directly when generating your tailored resume.
+  </Step>
+
+  <Step title="Upgrade your resume">
+    Click **✨ Upgrade Resume**. The Writer agent rewrites your resume in Markdown, incorporating the Matcher's feedback and the Researcher's intelligence about the company's hiring process. The new version is saved automatically.
+
+    Immediately after writing, the **Rematcher agent** re-scores the new resume against the same job description. The **Upgraded Analysis (Rematcher)** panel on the right shows:
+
+    - A refreshed keyword breakdown
+    - Your new match score with the point improvement displayed (e.g., `+12 pts`)
+    - An updated one-sentence recommendation
+
+    If you want to push the score further, click **🔄 Rewrite with more upgrades** to run the Writer and Rematcher again on the already-upgraded version.
+  </Step>
+
+  <Step title="Export the resume">
+    Click **🖨️ Print View** to open the export dialog. The dialog renders a clean preview of your current resume and offers two download formats:
+
+    - **PDF** — formatted for email attachments and ATS uploads
+    - **DOCX** — editable Word document for further manual adjustments
+
+    The filename is generated automatically from the company name, role, and version label (e.g., `CareerOps_Acme_Software_Engineer_Acme_-_Software_Engineer_v1.pdf`).
+  </Step>
+
+  <Step title="Log the application to your Kanban board">
+    Enter the **Company name** and **Role title** in the fields below the resume editor, then click **Save and log application**. CareerOps creates an application card in the **Saved** column of your Kanban board, tagged with the current resume version and match score.
+
+    <Note>
+      The Extractor agent auto-fills the Company and Role fields when it can identify them from the job description. Review the values before saving.
+    </Note>
+  </Step>
+</Steps>
+
+## Version history
+
+Every time you click **Upgrade Resume**, CareerOps creates a new named version in the format `Company - Role v1`, `Company - Role v2`, and so on. Use the **Version History** dropdown above the resume editor to switch between versions and compare them side by side.
+
+The base version is always called **Master Profile** and reflects your current candidate profile data. Click **🔄 Sync from Profile** to reset it to the latest profile if you have updated your profile since loading the page.
+
+<Note>
+  CareerOps uses four AI agents to power the Generate Resume workflow:
+
+  - **Extractor (Agent 1)** — Pulls the company name and job title from the raw description.
+  - **Researcher (Agent 2)** — Searches the web for interview process insights and company culture signals specific to the role.
+  - **Matcher (Agent 3)** — Compares your resume against the job description and identifies gaps.
+  - **Writer (Agent 4)** — Rewrites your resume in Markdown using the Matcher's feedback and Researcher's notes.
+
+  A fifth agent, the **Rematcher**, re-runs the ATS scoring pass after each upgrade so you can see the exact score improvement.
+</Note>
+
+<Warning>
+  The Writer agent only rewrites the wording and emphasis of your existing experience. It does not fabricate skills, titles, or achievements you do not have. If a required skill is genuinely missing, add it to your candidate profile before upgrading.
+</Warning>

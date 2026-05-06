@@ -1,0 +1,55 @@
+---
+title: "Manage CareerOps settings: goals, theme, and database"
+description: "Set your daily application target, switch between light and dark mode, and verify your PostgreSQL database connection from the CareerOps Settings page."
+---
+
+The Settings page gives you control over your daily job search goal and lets you verify that CareerOps is connected to your database. Open it from the sidebar at any time.
+
+## Set your daily application goal
+
+Your daily goal is the number of job applications you aim to submit each day. CareerOps tracks your progress against this target and displays it in the header progress bar.
+
+<Steps>
+  <Step title="Select an active candidate">
+    Make sure a candidate profile is selected in the header. The **Save goal** button is disabled until a profile is active, because the goal is stored per candidate.
+  </Step>
+  <Step title="Open Settings">
+    Navigate to **Settings** from the sidebar.
+  </Step>
+  <Step title="Set the target number">
+    Under **Daily application goal**, use the number input to set your target. The minimum is 1 and the maximum is 50 applications per day.
+  </Step>
+  <Step title="Save the goal">
+    Click **Save goal**. A confirmation toast appears and the header progress bar updates immediately to reflect your new target.
+  </Step>
+</Steps>
+
+<Tip>
+  The progress bar in the app header shows how many applications you have logged today versus your daily goal. Each time you click **Save and log application** on the Generate Resume page, the counter increments. Check the header bar throughout the day to stay on track.
+</Tip>
+
+## Change the appearance theme
+
+CareerOps inherits its theme from Streamlit. To switch between light and dark mode:
+
+1. Click the **three-dot menu** (⋮) in the top-right corner of the app.
+2. Select **Settings**.
+3. Under **Theme**, choose **Light**, **Dark**, or **Use system setting**.
+
+The change takes effect immediately without reloading the page.
+
+## Test the database connection
+
+If you suspect a connectivity issue or have just updated your database credentials, use the diagnostics tool to verify the connection.
+
+1. Open the **Settings** page.
+2. Scroll to **Database diagnostics**.
+3. Click **Test database connection**.
+
+CareerOps connects to PostgreSQL and displays the database name, connected user, and server version if successful. It also reports how many candidate records are in the database.
+
+If the connection fails, you will see an error message with a prompt to check your `.streamlit/secrets.toml` file and confirm that PostgreSQL is running and reachable from the host where CareerOps is deployed.
+
+<Note>
+  Database credentials are configured in `.streamlit/secrets.toml` under the `[postgres]` key. The required fields are `host`, `dbname`, `user`, `password`, and `port`.
+</Note>

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "CareerOps",
+  "favicon": "https://media.brand.dev/d9eec136-1b58-4560-8c2a-e122eba9a857.jpg",
+  "colors": {
+    "primary": "#0c64c4",
+    "light": "#84b4dc"
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/prashanthvadityavath/CareerOps"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/dashboard",
+              "features/resume-tailoring",
+              "features/application-tracking",
+              "features/analytics"
+            ]
+          },
+          {
+            "group": "Profiles & Settings",
+            "pages": [
+              "guides/master-profile",
+              "guides/ai-models",
+              "guides/settings"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "troubleshooting",
+              "faq"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

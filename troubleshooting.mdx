@@ -1,0 +1,176 @@
+---
+title: "Fix common CareerOps setup and runtime issues"
+description: "Resolve the most frequent CareerOps errors, from database connection failures and missing API keys to export problems and stalled Kanban cards."
+---
+
+When something goes wrong in CareerOps, most issues trace back to one of a handful of root causes: a database that isn't running, a missing API key, an uninstalled dependency, or a site that blocks automated requests. The accordion below covers each common problem with its cause and exact fix.
+
+<AccordionGroup>
+  <Accordion title="Database connection fails at startup">
+    CareerOps connects to PostgreSQL on launch using the credentials in `.streamlit/secrets.toml`. If PostgreSQL isn't running or the credentials are wrong, the app cannot start.
+
+    **Cause:** PostgreSQL is not running, or the `[postgres]` block in `.streamlit/secrets.toml` contains incorrect values.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Confirm PostgreSQL is running">
+        Start the PostgreSQL service for your platform (for example, `brew services start postgresql@16` on macOS, or `sudo service postgresql start` on Linux).
+      </Step>
+      <Step title="Verify your credentials">
+        Open `.streamlit/secrets.toml` and confirm the `host`, `port`, `dbname`, `user`, and `password` fields match your local PostgreSQL setup.
+
+        ```toml
+        [postgres]
+        host = "localhost"
+        port = 5432
+        dbname = "careerops"
+        user = "postgres"
+        password = "your_password"
+        ```
+      </Step>
+      <Step title="Re-run the database initializer">
+        ```bash
+        python scripts/init_db.py
+        ```
+        This creates the `careerops` database if it doesn't exist and applies the full schema.
+      </Step>
+    </Steps>
+
+    <Note>
+      If the database already exists but the schema is missing, run `python scripts/init_db.py --schema-only` instead.
+    </Note>
+  </Accordion>
+
+  <Accordion title="App won't start: ModuleNotFoundError">
+    A `ModuleNotFoundError` on startup means Python can't find one or more required packages.
+
+    **Cause:** Dependencies are not installed, or you're running the app outside the project's virtual environment.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Activate the virtual environment">
+        ```bash
+        source .venv/bin/activate   # macOS / Linux
+        .venv\Scripts\activate      # Windows
+        ```
+      </Step>
+      <Step title="Install all dependencies">
+        ```bash
+        pip install -r requirements.txt
+        ```
+      </Step>
+      <Step title="Start the app again">
+        ```bash
+        streamlit run app.py
+        ```
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="AI analysis returns an error">
+    If the AI analysis step fails, CareerOps will show a toast error message and return no results.
+
+    **Cause:** The API key for the selected provider is missing, empty, or invalid.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Enter your API key on the Generate Resume page">
+        Open the **Generate Resume** page, select your AI provider from the dropdown, then expand the API key section (for example, **Gemini API Key Configuration**). Enter a valid key and click **Save Key**.
+      </Step>
+      <Step title="Alternatively, test the connection from Settings">
+        Go to **Settings → Database diagnostics** and click **Test database connection** to rule out connectivity problems. For API key issues, re-enter the key on the Generate Resume page.
+      </Step>
+    </Steps>
+
+    <Tip>
+      CareerOps saves API keys to `user_keys.json` on your machine. If you've updated a key on the provider's website, clear the old key first using **Clear Key**, then save the new one.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Job description URL fetch fails">
+    Clicking **Fetch** with a job posting URL sometimes returns an error or empty text.
+
+    **Cause:** The target website blocks automated requests or requires a login to view the job description.
+
+    **Fix:** Paste the job description text directly into the text area instead of using the URL fetch option. Open the job posting in your browser, select all text in the description, copy it, and paste it into the **Job description** field on the Generate Resume page.
+  </Accordion>
+
+  <Accordion title="Match score is 0 or analysis returns no keywords">
+    After clicking **Analyze job description**, the match score stays at 0 and no keywords appear.
+
+    **Cause:** The job description field is empty, or the AI API call failed silently without displaying an error.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Check the job description field">
+        Confirm the **Job description** text area contains content before running the analysis. If it's empty, paste the job description text or use the URL fetch option.
+      </Step>
+      <Step title="Verify your API key is saved">
+        Expand the API key section for your selected provider on the Generate Resume page. If the field is blank, enter and save your key.
+      </Step>
+      <Step title="Try a different provider">
+        Switch the **Select AI Model** dropdown to a different provider (for example, from Gemini to OpenAI) and run the analysis again to isolate whether the issue is provider-specific.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Resume export (PDF/DOCX) fails">
+    Clicking **Print View** and attempting a download shows an error in the export dialog.
+
+    **Cause:** The `fpdf2` or `python-docx` library is not installed or installed incorrectly.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Install the export dependencies">
+        ```bash
+        pip install fpdf2 python-docx
+        ```
+      </Step>
+      <Step title="Restart the app">
+        Stop the running Streamlit process and start it again:
+
+        ```bash
+        streamlit run app.py
+        ```
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Kanban card not updating stage">
+    Moving a card on the Applications board appears to have no effect, or the card reverts to its previous stage on reload.
+
+    **Cause:** A database write failed silently due to a broken or stale PostgreSQL connection.
+
+    **Fix:**
+
+    <Steps>
+      <Step title="Run the database connection test">
+        Go to **Settings → Database diagnostics** and click **Test database connection**. A successful result confirms that PostgreSQL is reachable and the `candidate` table exists.
+      </Step>
+      <Step title="Reload the app if the connection was stale">
+        If the test passes after a previous failure, the connection pool was refreshed automatically. Reload the Applications page and try moving the card again.
+      </Step>
+    </Steps>
+
+    <Warning>
+      If the connection test itself fails, follow the steps in **Database connection fails at startup** above before retrying.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Daily goal progress bar not updating">
+    The progress bar in the header doesn't increment even after logging new applications.
+
+    **Cause:** The daily application counter resets every time the app reloads or the browser tab is closed. It is an in-session counter, not a persistent database value.
+
+    **Fix:** This is expected behavior. The header progress bar reflects applications logged in the current session. For persistent trends and historical counts, open the **Analytics** page, which reads directly from your PostgreSQL database and is unaffected by session resets.
+
+    <Info>
+      To change your daily application target, go to **Settings → Daily application goal** and save a new value. This persists to your candidate profile in the database.
+    </Info>
+  </Accordion>
+</AccordionGroup>

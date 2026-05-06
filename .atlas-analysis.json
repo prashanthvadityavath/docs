@@ -1,0 +1,67 @@
+{
+  "projectType": "saas",
+  "projectName": "CareerOps",
+  "projectDescription": "An AI-powered job search dashboard that helps job seekers tailor resumes, track applications, and analyze their career search with built-in Kanban and analytics.",
+  "theme": "almond",
+  "primaryColor": "#0c64c4",
+  "lightColor": "#84b4dc",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/dashboard",
+              "features/resume-tailoring",
+              "features/application-tracking",
+              "features/analytics"
+            ]
+          },
+          {
+            "group": "Profiles & Settings",
+            "pages": [
+              "guides/master-profile",
+              "guides/ai-models",
+              "guides/settings"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "troubleshooting",
+              "faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Multi-profile candidate management for different career tracks",
+    "AI resume tailoring using Gemini, OpenAI, Grok, Qwen, or local Ollama models",
+    "Job match scoring with keyword analysis and gap identification",
+    "Kanban board for tracking applications across Saved, Applied, Interviewing, Offered, and Rejected stages",
+    "Daily application goals with progress tracking in the header",
+    "Analytics dashboard with application trends, resume version performance, and activity heatmaps",
+    "One-click resume export to PDF and DOCX formats",
+    "Automatic job description fetching from a URL"
+  ],
+  "publicApiSurface": [
+    "Dashboard: KPI cards (Total Applications, Interviews, Offers, Conversion Rate) with 7-day sparklines",
+    "Generate Resume: job description input via URL fetch or paste, AI model selection, keyword analysis, match scoring, resume editor with version history",
+    "Applications: full-page Kanban board with drag-to-move between stages",
+    "Analytics: weekly application trends, resume version interview rate, status distribution chart, activity heatmap",
+    "Master Profile: CRUD for candidate profiles including skills, work experience, education, projects, and certifications",
+    "Settings: daily goal configuration, appearance, and database connection diagnostics"
+  ]
+}

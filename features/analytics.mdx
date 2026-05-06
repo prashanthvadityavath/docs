@@ -1,0 +1,49 @@
+---
+title: "Analyze job search trends with the Analytics tab"
+description: "CareerOps Analytics shows weekly application volume, resume version interview rates, pipeline stage distribution, and a 28-day activity heatmap."
+---
+
+The **Analytics** tab turns your logged applications into four interactive charts. Use them to identify which week you were most active, which tailored resume version earns the most interviews, how your pipeline is distributed across stages, and which days of the week you apply most consistently. Together, these views surface the patterns that raw numbers hide.
+
+<CardGroup cols={2}>
+  <Card title="Applications per week" icon="chart-line">
+    A line chart that plots total application volume by calendar week. Peaks show your most productive stretches; flat periods are a signal to re-engage. Use this chart to hold yourself accountable to a weekly application target.
+  </Card>
+  <Card title="Resume version vs interview rate" icon="file-check">
+    A bar chart that groups your applications by the resume version tag used and calculates what percentage of those applications reached the **Interviewing** stage. Use this to identify which tailored version resonates most with recruiters and make it your default for similar roles.
+  </Card>
+  <Card title="Application status distribution" icon="chart-pie">
+    A donut chart that shows the proportion of all applications currently in each Kanban stage (Saved, Applied, Interviewing, Offered, Rejected). A heavy slice in **Saved** means you have unsubmitted work; a thin slice in **Interviewing** relative to **Applied** suggests a cover letter or resume issue worth investigating.
+  </Card>
+  <Card title="Activity by day of week" icon="calendar-days">
+    A heatmap covering the past 28 days (four weeks), broken into a Mon–Sun grid. Darker cells mean more applications on that day. Use it to find your natural productive rhythm and schedule focused application sessions around it.
+  </Card>
+</CardGroup>
+
+## Reading the charts
+
+### Applications per week
+
+Each data point on the line corresponds to one ISO calendar week. Hover over a point to see the exact week and application count. If you logged applications across multiple weeks, the line gives you an at-a-glance sense of whether your search is accelerating or slowing down.
+
+### Resume version interview rate
+
+The horizontal axis lists every distinct resume version tag you have used across logged applications. The vertical axis shows the interview rate for that version, calculated as:
+
+```
+interview rate = (applications in Interviewing stage / total applications with that tag) × 100
+```
+
+A version with a high interview rate is performing well. Consider using it as the starting point for future tailoring sessions rather than the Master Profile.
+
+### Application status distribution
+
+The donut chart maps directly to your Kanban board. Applications appear in the segment that matches their current stage. Rotating the ring from left to right with more of it in green (**Offered**) and amber (**Interviewing**) is the goal.
+
+### Activity by day of week
+
+The heatmap covers the most recent 28 days, organized into four rows (Week 1 through Week 4, oldest at top) and seven columns (Monday through Sunday). Each cell shows the number of applications logged on that day. Use this view to spot gaps — for example, if weekends are always blank, consider scheduling light application sessions on those days to keep momentum.
+
+<Info>
+  Analytics only appear after you have logged at least one application. Log applications from the Generate Resume page or by saving directly from the Kanban board. The charts update automatically each time you navigate to the Analytics tab.
+</Info>

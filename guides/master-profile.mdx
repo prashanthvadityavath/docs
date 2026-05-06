@@ -1,0 +1,136 @@
+---
+title: "Create and manage CareerOps candidate profiles"
+description: "Learn how to build a master profile in CareerOps — the single source of truth for AI-tailored resume generation — and maintain multiple career-track profiles."
+---
+
+Your master profile is the foundation of everything CareerOps generates. Every section you fill in — skills, experience, education, projects, certifications — feeds directly into the AI resume tailoring pipeline. The richer your profile, the more accurate and compelling your AI-generated resumes will be.
+
+You can maintain multiple profiles for different career tracks. For example, you might keep a "Data Scientist" profile with a focus on Python and ML frameworks, and a separate "Software Engineer" profile emphasizing backend systems. Each profile stores its own complete set of sections independently.
+
+## Create a new profile
+
+<Steps>
+  <Step title="Open the Master Profile page">
+    Navigate to **Master Profile** from the sidebar.
+  </Step>
+  <Step title="Select 'Create new candidate'">
+    In the candidate selector at the top of the page, choose **Create new candidate** from the dropdown.
+  </Step>
+  <Step title="Fill in basic information">
+    The **Candidate details** section expands automatically. Enter at minimum a full name and email address — these two fields are required. Add phone, LinkedIn, GitHub, and portfolio URLs as needed.
+  </Step>
+  <Step title="Add a career objective and professional summary">
+    Enter a short career objective in the first text area. In the **Professional summary** field, write one bullet point per line. CareerOps stores these as individual bullets and uses them in the resume header section.
+  </Step>
+  <Step title="Save the profile">
+    Click **Save candidate**. The page reloads and automatically selects your new profile in the dropdown.
+  </Step>
+  <Step title="Fill in the remaining sections">
+    With your profile selected, expand each section below the header to add skills, experience, education, projects, and certifications.
+  </Step>
+</Steps>
+
+<Note>
+  Full name and email are the only required fields. All other basic info fields are optional but improve the quality of AI-generated resumes.
+</Note>
+
+## Profile sections
+
+Each section below corresponds to an expandable panel on the Master Profile page. Click a section header to expand it and add or edit entries.
+
+<AccordionGroup>
+  <Accordion title="Basic info">
+    The basic info section holds contact details and summary content for the candidate.
+
+    | Field | Description |
+    |---|---|
+    | Full name | The candidate's display name, shown in the header avatar and on generated resumes. |
+    | Email | Used as a unique identifier — no two profiles can share the same email address. |
+    | Phone | Optional contact number. |
+    | LinkedIn URL | Full URL to the candidate's LinkedIn profile. |
+    | GitHub URL | Full URL to the candidate's GitHub profile. |
+    | Portfolio URL | Any personal site or portfolio link. |
+    | Career objective | A short statement of the candidate's career direction, typically one or two sentences. |
+    | Professional summary | Written one bullet per line. Each line becomes a separate summary bullet on the resume. |
+
+    To update basic info for an existing profile, select the profile from the dropdown, expand **Candidate details**, edit the fields, and click **Save candidate**.
+  </Accordion>
+
+  <Accordion title="Technical skills">
+    Skills are grouped into categories. For example, you might have a "Backend Technologies" category containing `Python, FastAPI, PostgreSQL`, and a separate "Cloud & DevOps" category for `AWS, Docker, Kubernetes`.
+
+    **To add a category:**
+    1. Scroll to the **Add category** form inside the Technical skills section.
+    2. Enter a category name and a comma-separated list of skills.
+    3. Click **Add skills**.
+
+    **To edit an existing category:** click **Edit** next to the category, modify the fields in the form that appears, then click **Update skills**.
+
+    **To remove a category:** click **Remove** and confirm the deletion dialog.
+  </Accordion>
+
+  <Accordion title="Work experience">
+    Each work experience entry represents a single position. Entries are displayed in reverse chronological order.
+
+    | Field | Description |
+    |---|---|
+    | Company name | The employer's name. Required. |
+    | Role title | Your job title at that company. Required. |
+    | Start date | First day in the role. |
+    | End date | Leave blank to display "Present" on the resume. |
+    | Contributions | Enter one bullet point per line. Each line becomes a separate achievement bullet. |
+    | Technologies | Comma-separated list of technologies used in this role. Displayed as tags. |
+
+    Click **Add experience** to save a new entry, or **Edit** on an existing entry to modify it.
+  </Accordion>
+
+  <Accordion title="Education">
+    Each education entry represents a degree or qualification.
+
+    | Field | Description |
+    |---|---|
+    | Degree | The credential type, such as B.Sc. or M.Eng. |
+    | Field of study | The academic discipline, such as Computer Science. |
+    | Institution | The university or school name. Required. |
+    | Location | City and country or state of the institution. |
+    | Start year | The year you began the program. |
+    | End year | The year you completed or expect to complete the program. |
+
+    <Tip>
+      If you want to include your GPA, add it directly to the **Degree** field (for example, "B.Sc. Computer Science — 3.9/4.0") or mention it in your career objective.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Projects">
+    Each project entry highlights work from your portfolio, side projects, or open-source contributions.
+
+    | Field | Description |
+    |---|---|
+    | Project name | The name of the project. Required. |
+    | Project URL | An optional link to a live demo, GitHub repo, or case study. |
+    | Start date | When you began working on the project. |
+    | End date | Leave blank if the project is ongoing. |
+    | Technologies | Comma-separated list of tools and languages used. |
+    | Description | A short paragraph describing what the project does and your role in it. |
+  </Accordion>
+
+  <Accordion title="Certifications">
+    Each certification entry records a professional credential.
+
+    | Field | Description |
+    |---|---|
+    | Certificate name | The official name of the credential. Required. |
+    | Issuing organization | The body that issued the credential. Required. |
+    | Issue date | The date the credential was awarded. |
+    | Expiration date | Optional. Leave blank for credentials with no expiry. |
+    | Credential URL | A link to verify the credential online (e.g., a Credly or AWS badge URL). |
+  </Accordion>
+</AccordionGroup>
+
+## How the profile feeds into resume generation
+
+When you open the **Generate Resume** page, CareerOps loads a text version of your master profile as the starting resume. If you have made recent changes to your profile, click the **Sync from Profile** button in the resume editor panel to pull in the latest version before running AI analysis.
+
+<Tip>
+  Always sync your profile before running a new AI analysis to ensure the AI agents are working from your most up-to-date experience and skills.
+</Tip>

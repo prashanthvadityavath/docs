@@ -1,0 +1,66 @@
+---
+title: "Track job applications on a visual Kanban board"
+description: "Use the CareerOps Kanban board to organize applications into pipeline stages, move cards as your search progresses, and log new roles from the resume workflow."
+---
+
+The **Applications** tab gives you a full-page Kanban board where every job you are pursuing lives as a card. As your search progresses — from saving a role, to applying, to interviewing, to receiving an outcome — you drag (or select) each card into the appropriate column. The board updates instantly and feeds the analytics and dashboard views with live data.
+
+## Kanban columns
+
+The board is divided into four columns that map to the natural progression of a job search.
+
+<AccordionGroup>
+  <Accordion title="Saved">
+    You have bookmarked the role or generated a tailored resume but have not submitted an application yet. Cards land here automatically when you click **Save and log application** on the Generate Resume page.
+
+    Use this column as a holding area while you decide which roles to prioritize or while you finish tailoring your resume.
+  </Accordion>
+  <Accordion title="Applied">
+    You have submitted an application to this role. Move a card here as soon as you hit submit so your **Applications per Week** analytics stay accurate.
+  </Accordion>
+  <Accordion title="Interviewing">
+    You have at least one interview scheduled or completed. Moving a card to this column increments the **Interviews** KPI on your dashboard.
+  </Accordion>
+  <Accordion title="Offer / Rejected">
+    The application has reached a final outcome — either an offer or a rejection. Both outcomes live in the same column, separated visually by a green background (offered) or an orange background (rejected). Moving a card here increments the **Offers** KPI and contributes to your **Conversion Rate**.
+
+    To record the specific outcome, select **Offered** or **Rejected** from the **Move to** dropdown on the card.
+  </Accordion>
+</AccordionGroup>
+
+## What each card shows
+
+Every application card displays the following details:
+
+| Field | Description |
+|-------|-------------|
+| **Company** | The company name logged when the application was saved |
+| **Role** | The job title for the application |
+| **Resume tag** | The name of the resume version used (e.g., `Acme - Engineer v2`) |
+| **Match score** | The AI match score at the time of logging, color-coded green (≥ 80%), amber (≥ 60%), or grey (below 60%) |
+| **Date applied** | The date the application was logged in CareerOps |
+
+## Adding and tracking an application
+
+<Steps>
+  <Step title="Tailor your resume on the Generate Resume page">
+    Use the Generate Resume workflow to fetch a job description, run the AI analysis, and produce a tailored version. See [Generate AI-tailored resumes for any job description](/features/resume-tailoring) for the full walkthrough.
+  </Step>
+  <Step title="Save and log the application">
+    Enter the **Company name** and **Role title** fields on the Generate Resume page, then click **Save and log application**. CareerOps creates a card in the **Saved** column, tagged with the current resume version and match score.
+  </Step>
+  <Step title="Open the Applications tab">
+    Navigate to the **Applications** tab to see the full Kanban board. Your new card appears in the **Saved** column.
+  </Step>
+  <Step title="Move the card as your status changes">
+    When you submit the application, select **Applied** from the **Move to** dropdown on the card. Repeat as you progress through interviews and reach an outcome. Each move is logged in the Recent Activity feed on the Dashboard.
+  </Step>
+</Steps>
+
+<Tip>
+  Add your API key once and use **Save and log application** immediately after every resume upgrade — even before you submit. This keeps your pipeline full and your analytics accurate.
+</Tip>
+
+<Note>
+  The Applications board requires a candidate profile to be selected. If the board is empty and you have not yet selected a profile, open the header selector and choose or create one.
+</Note>
